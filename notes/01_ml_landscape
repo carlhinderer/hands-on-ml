@@ -1,0 +1,353 @@
+-----------------------------------------------------------------------
+|  CHAPTER 1 - THE ML LANDSCAPE                                       |
+-----------------------------------------------------------------------
+
+- Geoffrey Hinton
+
+    - In 2006, Geoffrey Hinton et al published a paper showing how to train a deep NN capable of recoginzing
+        handwritten digits at 98% precision.
+
+    - They branded this technique 'Deep Learning'.  A deep NN is a very simplified model of our cerebral
+        cortex, composed of stacks of layers of artificial neurons.
+
+    - Training a deep NN was widely considered impossible at the time, and reserachers had abandoned it in
+        the late 1990s.  This paper showed that DL was capable of mindblowing achievements no other ML
+        technque could home to match, with the help of tremendous computing power and great amounts of data.
+
+
+
+- Common ML examples:
+
+    - Segment customers and find the best marketing strategy for each group
+
+    - Recommend products for each client based on what other clients bought
+
+    - Detect which transactions are likely to be fraudulent
+
+    - Forecast next year's revenue
+
+
+
+- Libraries Used in this Book:
+
+    - Scikit-learn
+        - Very easy to use, implements many ML algorithms efficiently, makes for great entry point
+        - Created by David Cournapeau in 2007, now led by French Institute for CS and Automation
+
+    - TensorFlow
+        - More complex library for distributed numerical computation
+        - Used to train very large NNs efficiently by distributing across hundreds of servers
+        - Created by Google, supports many of it's large-scale ML applications
+        - Open sourced in 2015, Version 2.0 released in 2019
+
+    - Keras
+        - High-level DL API that makes it very simple to train and run NNs
+        - Can run on top of TF, Theano, or Microsoft Cognitive Toolkit (formerly known as CNTK)
+        - TF comes with it's own implementation of Keras, tf.keras, that supports advanced features
+
+
+
+- What is ML?
+
+    - Definitions:
+
+        - ML is the science of programming computers so that they can learn from data.
+
+        - ML is the field of study that gives computers the ability to learn without being explicitly
+            programmed.
+
+        - A computer program is said to learn from experience E with respect to some task T and some
+            performance measure P, if it's P on T improves with E.
+
+
+    - Spam filters were the first successful application in the 1990s.
+
+        - There are regular ('ham') emails and spam emails.
+
+        - The examples the system uses to learn are the 'training set'.  Each training example is called a
+            'training instance' or sample.
+
+        - The task T is to flag spam for new eamils, the experience E is the training data, and the 
+            performance measure is the 'accuracy' of the predictions.
+
+
+
+- Why Use Maching Learning
+
+    - We don't want to keep manually updating a rules engine.  We would rather have the program automatically
+        learn from new data.
+
+    - We can use it for problems that are too complex for traditional approaches, or have no known algorithm,
+        like speech processing.
+
+    - ML can help humans learn.  ML algorithms can be inspected to see what they have learned.  Sometimes
+        this will reveal unexpected correlations or new trends, and thereby lead to a better understanding
+        of the problem.
+
+    - Applying ML techniques to dig into large amounts of data can help discover patterns that were not
+        immediately apparent.  This is called 'data mining'.
+
+
+
+- Examples of Applications
+
+    - Analyzing images of products on a production line to automatically classify them
+        
+        - This is called 'image classification'
+        - Typically done using Convolutional NNs (CNNs)
+
+
+    - Detecting tumors in a brain scan
+
+        - This is 'semantic segmentation', where each pixel in the image is classified
+        - We want to determine the exact location and shape of tumors
+        - Typically done using CNNs
+
+
+    - Automatically classifying news articles
+
+        - This is 'Natural Language Processing' (NLP), text classification more specifically
+        - Can use RNNs, CNNs, or Transformers
+
+
+    - Automatically flagging offensive comments on discussion forums
+
+        - Text classification using the same NLP tools
+
+
+    - Summarizing long documents automatically
+
+        - Branch of NLP called 'text summarization', using same NLP tools
+
+
+    - Creating a Chatbot or personal assistant
+
+        - Involves many NLP components
+        - incluing 'natural language understanding' (NLU) and question-answering modules
+
+
+    - Forecasting your company's revenue next year, based on many performance metrics
+
+        - This is a regression task that can be tackled using any regression model
+        - Could use Linear or Polynomial Regression, an SVM, a Random Forest, or a NN
+        - To take into account sequences of past performance metrics, could use RNNs, CNNs, Transformers
+
+
+    - Making your app react to voice commands
+
+        - This is 'speech recognition', which requires processing audio samples
+        - Since they are long and complex sequences, we use RNNs, CNNs, or Transformers
+
+
+    - Detecting Credit Card Fraud
+
+        - This is 'anomaly detection'
+
+
+    - Segmenting clients based on their purchases to design a different marketeing strategy for each one
+
+        - This is 'clustering'
+
+
+    - Representing a complex, high-dimensional dataset in a clear and insightful diagram
+
+        - This is data visualization, often involving dimensionality reduction techniques
+
+
+    - Recommending a product that a client may be interested in, based on past purchases
+
+        - This is a 'recommender system'
+        - One approach is to feed past purchases and other information into an artificial NN
+        - Algorithm would output most likely next purchase
+        - This NN would typically be trained on past purchases across all clients
+
+
+    - Building an Intelligent Bot for a Game
+
+        - This is often tackled using 'Reinforcement Learning' (RL)
+        - This branch of ML trains agents (bots) to pick the actions that will maximize rewards over time
+        - The AlphaGo program, which beat the world champion of Go, was built using RL
+
+
+
+- Types of ML Systems
+
+    - We classify ML systems based on broad categories based on the following criteria:
+
+        1. Whether or not they are trained with human supervision
+             (Supervised, Unsupervised, Semisupervised, Reinforcement Learning)
+
+        2. Whether or not they can learn incrementally or on the fly
+             (Online vs Batch Learning)
+
+        3. Whether they work by simply comparing new data points to known data points, or instead by 
+             detecting patterns in the training data and building a predictive model
+             (Instance-based vs Model-based)
+
+
+    - For instance, you may build a spam filter that learns on the fly, using a deep NN network model
+        trained by instances of spam and ham.  This is an online, model-based, supervised learning system.
+
+
+
+- Supervised Learning
+
+    - In supervised learning, the training set you feed into the algorithm includes the desired solutions,
+        called 'labels'.
+
+    - Classification is a common supervised task.  For example, a spam filter.
+
+    - Regression is another typical task.  You predict a 'target' numeric value based on a set of 'features'
+        called 'predictors'.
+
+
+    - Some of the most important supervised learning techniques include:
+
+        - kNN
+        - Linear Regression
+        - Logistic Regression
+        - SVMs
+        - Decision Trees and Random Forests
+        - Neural Networks
+
+
+
+- Unsupervised Learning
+
+    - In unsupervised learning, the training data is unlabeled.  The system tries to learn without a 
+        teacher.
+
+
+    - Some of the most important unsupervised algorithms are:
+
+        - Clustering
+            - k-Means
+            - DBSCAN
+            - HCA (Hierarchical Cluster Analysis)
+
+        - Anomaly Detection and Novelty Detection
+            - One-class SVM
+            - Isolation Forest
+
+        - Virtualization and Dimensionality Reduction
+            - PCA (Principal Component Anaylsis)
+            - Kernal PCA
+            - Locally Linear Embedding (LLE)
+            - t-Distributed Stochastic Neighbor Embedding
+
+        - Association Rule Learning
+            - Apriori
+            - Eclat
+
+
+    - For example, you may want to cluster visitors to a blog to try to detect groups of similar visitors.
+        You might find out that 40% of your visitors are males who like comic books and generally read 
+        your blog in the evening.
+
+    - If you use a 'hierarchical clustering' algorithm, it may also subdivide each group into smaller
+        groups.  This may help you target posts for each group.
+
+    - 'Visualization algorithms' are good examples of unsupervised algorithms.  You feed them a lot of
+        complex data, and they try to output a 2D or 3D representation of your data that can easily be
+        plotted.
+
+
+    - A related task is 'dimensionality reduction', which tries to simplify the data without losing too
+        much information.  One way to do this is to merge several correlated features into one.
+
+      For instance, a car's age and mileage might be strongly correlated, so the dimensionality reduction
+        algorithm will merge them into one feature that represents the car's wear and tear.  This is
+        called 'feature extraction'.
+
+
+    - 'Anomaly detection' is another important unsupervised task.  For example, this can be used to detect
+        unusual CC transactions, catch manufacturing defects, or automatically remove outliers from a 
+        data set before feeding it into another learning algorithm.  
+
+      The system is shown mostly normal instances during training, so it learns to recognize them, and when 
+         shown a new instance, it can tell whether it looks like a normal one or an anomaly.
+
+
+    - 'Novelty detection' is very similar.  In this case, it requires a very clean training set, devoid of
+         any of the instances you want the algorithm to detect.
+
+
+    - 'Association Rule Learning' is another common unsupervised task.  It digs into large amounts of data
+        to discover interesting relations between attributes.  For instance, you might find that people
+        who buy barbecue sauce and potato chips tend to also buy steak, so you place these items close
+        together.
+
+
+
+- Semisupervised Learning
+
+    - Since labeling data is usually time-consuming and costly, you will often have plenty of unlabeled
+        instances.  Some algorithms can deal with data that's partially labelled, known as 'semisupervised
+        learning'.
+
+    - For instance, Google Photos does this.  Once you upload your family photos, it will find one person
+        in Photos 1, 5, and 11, and it will find another person in photos 2, 3, and 5.  Now, it just needs
+        you to label who the people are, then you can search the photos.
+
+    - Most semisupervised learning algorithms are combinations of unsupervised and supervised algorithms. 
+        For example, deep belief networks (DBNs) are based on unsupervised components called restricted 
+        Boltzmann machines (RBMs) stacked on top of one another. 
+
+
+
+- Reinforcement Learning
+
+    - 'Reinforcement Learning' is very different.  The learning system (an 'agent') can observe the
+        environment, select and perform actions, and get 'rewards' over time.
+
+    - A 'policy' defines what action the agent should choose in a given situation.
+
+
+
+- Batch and Online Learning
+
+    - In 'batch learning', the system is incapable of learning incrementally.  It must be trained using all
+        the available data.  This is typically done offline since it takes a lot of time and computing
+        resources, so it's called 'offline learning'.
+
+    - If you want a batch learning system to know about new data (ie a new type of spam), you need to train
+        a new version of the system from scratch on the full dataset, stop the old system, and replace it
+        with the new one.
+
+    - This solution is simple and often works fine, but training using the full data set can take a lot of
+        time and requires a lot of computing resources (CPU, memory, disk, network, etc.).  If the amount
+        of data is huge, it may be impossible to use a batch learning algorithm.
+
+    - If a system has limited resources (ie a smartphone or a Mars rover), this approach is untenable.
+
+
+
+- Online Learning
+
+    - In online learning, you train the system incrementally by feeding it data instances sequentially,
+        either individually or in mini-batches.  Each learning step is fast and cheap, so the system
+        learns about new data on the fly.
+
+    - Online learning is great for systems that receive data as a continuous flow (ie stock prices) and
+        need to adapt to change rapidly or autonomously.
+
+    - You can discard data as it comes in (unless you want to be able to replay it), which can save a
+        lot of space.  
+
+    - Online algorithms can be used to train systems on huge datasets that cannot fit in main memory (this
+        is called 'out of core' learning).  For this reason, this approach can be used to train huge 
+        datasets.
+
+    - The 'learning rate' is an important parameter in online learning systems.  If it's too high, your
+        algorithm will adapt quickly to new data but tend to forget older data.  If it's too low, your
+        algorithm won't adapt quickly enough to new data.
+
+    - One big challenge in online learning is that if bad data is fed into the system, performance will
+        degrade in real time (ie a bad sensor), and your clients may notice it.
+
+
+
+- Instance-Based vs Model-Based Learning
+
+    - One way to categorize ML systems is how they 'generalize'.  Most ML tasks are about making 
+        predictions.  Since systems need to generalize
