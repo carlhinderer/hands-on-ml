@@ -12,7 +12,8 @@
 
     - Training a deep NN was widely considered impossible at the time, and reserachers had abandoned it in
         the late 1990s.  This paper showed that DL was capable of mindblowing achievements no other ML
-        technque could home to match, with the help of tremendous computing power and great amounts of data.
+        technique couldn't hope to match, with the help of tremendous computing power and great amounts of
+        data.
 
 
 
@@ -74,8 +75,8 @@
 
 - Why Use Maching Learning
 
-    - We don't want to keep manually updating a rules engine.  We would rather have the program automatically
-        learn from new data.
+    - We don't want to keep manually updating a rules engine.  We would rather have the program 
+        automatically learn from new data.
 
     - We can use it for problems that are too complex for traditional approaches, or have no known algorithm,
         like speech processing.
@@ -106,7 +107,7 @@
 
     - Automatically classifying news articles
 
-        - This is 'Natural Language Processing' (NLP), text classification more specifically
+        - This is 'Natural Language Processing' (NLP), 'text classification' more specifically
         - Can use RNNs, CNNs, or Transformers
 
 
@@ -347,7 +348,194 @@
 
 
 
-- Instance-Based vs Model-Based Learning
+- Instance-Based Learning
 
     - One way to categorize ML systems is how they 'generalize'.  Most ML tasks are about making 
-        predictions.  Since systems need to generalize
+        predictions.  Systems need to generalize (make good predictions for) to examples it has never
+        seen before, which is the true goal of ML.
+
+    - The most trivial form of learning is just memorizing instances.  For instance, just flag all spam
+        emails that are identical to emails that have already been flagged by users.
+
+    - Instead of just flagging identical emails, we could also flag emails that are very similar to known
+        spam emails.  This requires a 'measure of similarity' between 2 emails.  For instance, we could
+        count the number of words they have in common.
+
+    - This approach is called 'instance-based learning', where the system learns examples by heart, then
+        generalizes to new use cases by using a similarity measure.
+
+
+
+- Model-Based Learning
+
+    - Another way to generalize from a set of examples is to make a model of the examples and use that
+        model to make predictions.  This is called 'model-based learning'.
+
+    - For example, if you want to know if money makes people happier, you can get the GDP per capita of
+        each country, and also a life satisfaction rating.  You see that satisfaction goes up linearly
+        with GDP per capita.
+
+
+    - So you make a 'model selection'.  You select a linear model of life satisfaction with one attribute,
+        GDP per capita.
+
+        life_satisfaction = theta_0 + theta_1 * gdp_per_capita
+
+
+    - Before you can use your model, you need to define the parameter values theta_0 and theta_1.  To
+        figure out what values will make your model perform best, you can use either:
+
+        - A 'utility function' (or 'fitness function') that measures how good your model is
+
+        - A 'cost function' that measures how bad your model is
+
+
+    - For a linear model, we typically use a cost function that measures the distance between the linear
+        model's predictions and the training examples.  The objective is to minimize the distance.  The
+        Linear Regression algorithm is used for this.
+
+
+
+- Example - Training and Running a Linear Model using Scikit-Learn
+
+    import matplotlib.pyplot as plt
+    import numpy as np
+    import pandas as pd
+    import sklearn.linear_model
+
+    # Load the data
+    oecd_bli = pd.read_csv("oecd_bli_2015.csv", thousands=',')
+    gdp_per_capita = pd.read_csv("gdp_per_capita.csv", thousands=',', delimiter='\t',
+                                 encoding='latin1', na_values="n/a")
+
+    # Prepare the data
+    country_stats = prepare_country_stats(oecd_bli, gdp_per_capita)
+    X = np.c_[country_stats["GDP per capita"]]
+    y = np.c_[country_stats["Life satisfaction"]]
+
+    # Visualize the data
+    country_stats.plot(kind='scatter', x="GDP per capita", y='Life satisfaction')
+    plt.show()
+
+    # Select a linear model
+    model = sklearn.linear_model.LinearRegression()
+
+    # Train the model
+    model.fit(X, y)
+
+    # Make a prediction for Cyprus
+    X_new = [[22587]] # Cyprus's GDP per capita
+    print(model.predict(X_new)) # outputs [[ 5.96242338]]
+
+
+
+- Main Challenges of ML
+
+    1. Insufficient Quantity of Training Data
+
+        - Need thousands of examples for simple problems, millions for complex problems
+        - Studies show that data is more important than the algorithm used
+
+
+    2. Nonrepresentative Training Data
+
+        - It's crucial to use training set that is representative of data you want to generalize to
+        - If sample is too small, you'll have 'sampling noise'
+        - Even large samples can have 'sampling bias'
+
+
+    3. Poor-Quality Data
+
+        - It is often worth the effort to clean up training data
+        - You may want to discard outliers or try to fix them manually
+        - If instances are missing features, need to decide whether to ignore them or fill in missing values
+
+
+    4. Irrelevant Features
+
+        - Must have enough relevant features and not too many irrelevant ones
+        - Finding a good set of features is called 'feature engineering'
+        - 'Feature selection' is selecting the most useful features to train on out of existing features
+        - 'Feature extraction' is combining existing features to produce a more useful one
+
+
+    5. Overfitting the Training Data
+
+        - 'Overfitting' is over-generalizing based on the training data
+        - Often because the model is too complex and needs to be simplified
+        - May need to gather more training data
+        - May need to clean training data by removing outliers or fixing errors
+        - Constraining the model to reduce the risk of overfitting is called 'regularization'
+
+        - The amount of regularization to apply during learning can be controlled by a 'hyperparameter',
+            which is a parameter of an algorithm (not a model).  It must be set prior to training and 
+            remains constant during training.
+
+        - If the hyperparameter is very large, you'll get an almost flat model (slope close to 0).  It
+            won't overfit the model, but it will be less likely to find a good solution.
+
+
+    6. Underfitting the Training Data
+
+        - 'Underfitting' occurs when your model is to simple to learn the underlying structure of the data
+        - Linear models can be prone to underfitting
+        - May need to select a more powerful model with more parameters
+        - May need to feed better features to the learning algorithm
+        - May need to reduce the regularization hyperparameter
+
+
+
+- Testing and Validating
+
+    - To evaluate your model, you can split your data into training and test sets.
+
+    - The error rate on new cases is called the 'generalization error' (or 'out-of-sample error').  This
+        value tells you how well your model will perform on instances it has never seen before.
+
+    - If the training error is low but the generalization error is high, it means you are overfitting the
+        training data.
+
+    - A common split is 80% of data goes into the training set, while the other 20% is the test set.
+
+
+
+- Hyperparameter Tuning and Model Selection
+
+    - You may want to evaluate several models to find which has the best performance.  One option is to
+        train 100 different models using 100 different values for the regularization hyperparameter, and
+        pick the model with the lowest generalization error.
+
+    - The problem is that you measured the generalization error multiple times on the test set, and you
+        adapted the model and hyperparameter for that particular set.  This means the model is unlikely
+        to perform well on new data.
+
+    - A common solution to this problem is called 'holdout validation'.  You hold out part of the training
+        set to evaluate several candidate models and select the best one.  This new set is called the
+        'validation set' (or 'development set').
+
+    - Now, you train multiple models with different hyperparameters on the reduced training set (without
+        the validation set), and you select the model that perfoms best on the validation set.  After
+        this, you can train the model on the entire training set.
+
+    - If the validation set is too small, model evaluations will be imprecise.  If the validation set is
+        too big, the remaining training set will be small.  A solution to this is to use repeated
+        'cross-validation', which uses many small validation sets.  This multiplies the training time,
+        though.
+
+
+
+- Data Mismatch
+
+    - Even if you get a lot of data points, it's likely the data won't be a perfect representative of
+        the data you will see in production.  The validation and test sets must especially be as close to
+        production as you can get.
+
+
+    - One solution is to hold back some training pictures in yet another set called the 'train-dev set'.
+        After the model is trained, you can evaluate it on the train-dev set.  If it performs well, then
+        the model is not overfitting the training set.  If it performs poorly on the validation set, the
+        problem must be coming from a data mismatch.
+
+      If the model performs poorly on the training-dev set, the model must have overfit the training set,
+        so we can try to regularize or simplify the model, get more training data, and clean up the
+        training data.
